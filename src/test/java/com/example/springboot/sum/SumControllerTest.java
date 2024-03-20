@@ -21,8 +21,7 @@ public class SumControllerTest {
 
     @Test
     public void testSumNumbers() {
-        int[] numbers = {1, 2, 3, 4, 5};
-        ResponseEntity<SumResponse> response = restTemplate.postForEntity("/sum", numbers, SumResponse.class);
+        ResponseEntity<SumResponse> response = restTemplate.getForEntity("/sum?numbers=1&numbers=2&numbers=3&numbers=4&numbers=5", SumController.SumResponse.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(15, response.getBody().getResult());
@@ -30,18 +29,13 @@ public class SumControllerTest {
 
     @Test
     public void testSumNumbersWithEmptyList() {
-        int[] numbers = {};
-        ResponseEntity<SumResponse> response = restTemplate.postForEntity("/sum", numbers, SumResponse.class);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(0, response.getBody().getResult());
+        ResponseEntity<SumResponse> response = restTemplate.getForEntity("/sum", SumController.SumResponse.class);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
     public void testSumNumbersWithSingleNumber() {
-        int[] numbers = {10};
-        ResponseEntity<SumResponse> response = restTemplate.postForEntity("/sum", numbers, SumResponse.class);
-
+        ResponseEntity<SumResponse> response = restTemplate.getForEntity("/sum?numbers=10", SumController.SumResponse.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(10, response.getBody().getResult());
     }

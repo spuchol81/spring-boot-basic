@@ -1,21 +1,25 @@
 package com.example.springboot.sum;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class SumController {
 
-    @PostMapping("/sum")
-    public SumResponse sumNumbers(@RequestBody List<Integer> numbers) {
+    @GetMapping("/sum")
+    public SumResponse getSum(@RequestParam("numbers") int[] numbers) {
+        int sum = calculateSum(numbers);
+        return new SumResponse(sum);
+    }
+
+    private int calculateSum(int[] numbers) {
         int sum = 0;
         for (int num : numbers) {
             sum += num;
         }
-        return new SumResponse(sum);
+        return sum;
     }
+
 
     public static class SumResponse {
         private int result;
