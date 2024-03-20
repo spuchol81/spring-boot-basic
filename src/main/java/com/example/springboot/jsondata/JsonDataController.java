@@ -34,9 +34,10 @@ public class JsonDataController {
         return ResponseEntity.ok(jsonDataRepository.findAll());
     }
     @GetMapping("/{id}")
-    public ResponseEntity<JsonData> getJsonDataById(@PathVariable Long id) {
-        Optional<JsonData> jsonDataOptional = jsonDataRepository.findById(id);
-        return jsonDataOptional.map(jsonData -> ResponseEntity.ok().body(jsonData))
-                                .orElse(ResponseEntity.notFound().build());
+    @ResponseBody
+public ResponseEntity<String> getJsonDataById(@PathVariable Long id) {
+    Optional<JsonData> jsonDataOptional = jsonDataRepository.findById(id);
+    return jsonDataOptional.map(jsonData -> ResponseEntity.ok().body(jsonData.getJsonData()))
+                            .orElse(ResponseEntity.notFound().build());
     }
 }
